@@ -9,7 +9,7 @@ export default {
   props: ["text", "color"],
   methods: {
     onClick() {
-      alert("Click");
+      this.$emit("toggle-form");
     },
   },
 };

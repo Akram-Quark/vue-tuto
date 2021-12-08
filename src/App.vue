@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <Header title="task manager" />
+    <Header title="task manager" @toggleForm="toggleForm" />
+    <div>
+      <AddTask @add-task="addTask" v-show="showAddTask" />
+    </div>
+
     <Tasks @toggle="toggleRemind" @delete="deleteTask" :tasks="tasks" />
   </div>
 </template>
@@ -8,18 +12,27 @@
 <script>
 import Header from "./components/Header.vue";
 import Tasks from "./components/Tasks.vue";
+import AddTask from "./components/AddTask.vue";
 export default {
   name: "App",
   components: {
     Header,
     Tasks,
+    AddTask,
   },
   data() {
     return {
       tasks: [],
+      showAddTask: false,
     };
   },
   methods: {
+    addTask(newTask) {
+      this.tasks = [...this.tasks, newTask];
+    },
+    toggleForm() {
+      this.showAddTask = !this.showAddTask;
+    },
     deleteTask(id) {
       if (confirm("are you sur ?")) {
         this.tasks = this.tasks.filter((t) => t.id !== id);
@@ -31,6 +44,7 @@ export default {
       );
     },
   },
+
   created() {
     this.tasks = [
       {
